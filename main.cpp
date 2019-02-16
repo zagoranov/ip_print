@@ -13,24 +13,24 @@ namespace print_int {
 	std::string print_(char v) {
 		unsigned char ch = v;
 		return std::to_string(ch);
-	};
+	}
 
 	std::string print_(short v) {
 		char qq = (v & 0xFF00) >> 8;
 		return print_((char)qq) +
 			"." +
 			print_((char)(v & 0x00FF));
-	};
+	}
 
 	std::string print_(int v) {
 		short qq = (v & 0xFFFF0000) >> 16;
 		return print_(qq) + "." + print_((short)(v & 0x0000FFFF));
-	};
+	}
 
 	std::string print_(long long v) {
 		int qq = (v & 0xFFFFFFFF00000000) >> 32;
 		return print_(qq) + "." + print_((int)(v & 0x00000000FFFFFFFF));
-	};
+	}
 }
 
 /// <summary>
@@ -89,8 +89,10 @@ int main()
 	print_ip(ch);
 	short sh = 0;
 	print_ip(sh);
-	print_ip(2130706433);
-	print_ip(8875824491850138409);
+	int inin = 2130706433;
+	print_ip(inin);
+	long long lolo = 8875824491850138409;
+	print_ip(lolo);
 
 	/// String checks
 	std::string qq = "127.127.127.001";
