@@ -6,7 +6,7 @@ else()
     project(ip_print VERSION 0.0.13)
 endif()
 
-find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+#find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
 configure_file(version.h.in version.h)
 
@@ -16,16 +16,16 @@ add_library(ip_print lib.cpp)
 
 #add_executable(test_version test_version.cpp)
 
-set_target_properties(ip_print_cli ip_print test_version PROPERTIES
+set_target_properties(ip_print_cli ip_print PROPERTIES
     CXX_STANDARD 14
     CXX_STANDARD_REQUIRED ON
     COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra"
 )
 
-set_target_properties(test_version PROPERTIES
-    COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
-    INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
-)
+#set_target_properties(test_version PROPERTIES
+#    COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
+#    INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
+#)
 
 set_target_properties(ip_print_cli PROPERTIES LINK_FLAGS -pthread
 )
@@ -34,10 +34,10 @@ target_link_libraries(ip_print_cli
     ip_print
 )
 
-target_link_libraries(test_version
-    ${Boost_LIBRARIES}
-    ip_print
-)
+#target_link_libraries(test_version
+#    ${Boost_LIBRARIES}
+#    ip_print
+#)
 
 install(TARGETS ip_print_cli RUNTIME DESTINATION bin)
 
