@@ -43,7 +43,7 @@ template<class T, typename std::enable_if<std::is_integral<T>::value>::type* = n
 }
 
 /// <summary>
-/// containers specialization
+/// Containers specialization
 /// </summary>
 template <typename T, typename = typename T::iterator>
 void print_ip(T container)
@@ -54,7 +54,7 @@ void print_ip(T container)
 }
 
 /// <summary>
-/// string specialization
+/// String specialization
 /// </summary>
 template<class T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
 void print_ip(std::string t)
@@ -63,7 +63,7 @@ void print_ip(std::string t)
 }
 
 /// <summary>
-/// Overloading tuples
+/// Tuple specialization
 /// </summary>
 template<std::size_t I = 0, typename... Tp>
 inline typename std::enable_if<I == sizeof...(Tp), void>::type
@@ -97,13 +97,13 @@ int main()
 	print_ip(qq);
 
 	/// Containers checks
-	std::vector<int> q_vector = { 127, 10, 10, 42 };
+	std::vector<int> q_vector = { 127, 10, 12, 42 };
 	print_ip(q_vector);
 	std::list<int> q_list = { 127, 42, 42, 10 };
 	print_ip(q_list);
 	
 	/// Tuple checks	
-	auto zz = std::make_tuple(127, 127, 10, 10);
+	auto zz = std::make_tuple(127, 127, 10, 11);
 	print_ip(zz);
 
 }
