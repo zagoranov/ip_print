@@ -4,42 +4,29 @@
 #include <string>
 #include <tuple>
 
+typedef union {
+	unsigned char bytes[8];
+	unsigned short int words[4];
+	unsigned int dwords[2];
+	unsigned long long int qword;
+} integral_union;
 
-/// <summary>
-/// integral types printing
-/// </summary>
-namespace print_int {
-
-	std::string print_(char v) {
-		unsigned char ch = v;
-		return std::to_string(ch);
-	}
-
-	std::string print_(short v) {
-		char qq = (v & 0xFF00) >> 8;
-		return print_((char)qq) +
-			"." +
-			print_((char)(v & 0x00FF));
-	}
-
-	std::string print_(int v) {
-		short qq = (v & 0xFFFF0000) >> 16;
-		return print_(qq) + "." + print_((short)(v & 0x0000FFFF));
-	}
-
-	std::string print_(long long v) {
-		int qq = (v & 0xFFFFFFFF00000000) >> 32;
-		return print_(qq) + "." + print_((int)(v & 0x00000000FFFFFFFF));
-	}
-}
 
 /// <summary>
 /// integral types specialization
 /// </summary>
-template<class T, typename std::enable_if<std::is_integral<T>::value>::type* = nullptr>
-	void print_ip(const T& t)
+template<class T, typename std::enable_if_t<std::is_integral_v<T>>* = nullptr>
+void print_ip(const T& t)
 {
-	std::cout << print_int::print_(t) << std::endl;
+	integral_union iu;
+	iu.qword = t;
+	for (int i = sizeof(T) - 1; i >= 0; --i)
+	{
+		std::cout << (int)iu.bytes[i];
+		if (i > 0)
+			std::cout << ".";
+	}
+	std::cout << std::endl;
 }
 
 /// <summary>
@@ -56,30 +43,28 @@ void print_ip(T container)
 /// <summary>
 /// String specialization
 /// </summary>
-template<class T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
+template<class T, typename std::enable_if_t<std::is_same_v<T, std::string>>* = nullptr>
 void print_ip(std::string t)
 {
 	std::cout << t << std::endl;
 }
 
+
 /// <summary>
 /// Tuple specialization
 /// </summary>
-template<std::size_t I = 0, typename... Tp>
-inline typename std::enable_if<I == sizeof...(Tp), void>::type
-print_ip(std::tuple<Tp...>& t)
-{ 
-	std::cout << std::endl;
-}
 
 template<std::size_t I = 0, typename... Tp>
-inline typename std::enable_if<I < sizeof...(Tp), void>::type
-	print_ip(std::tuple<Tp...>& t) {
+inline typename std::enable_if_t<I == sizeof...(Tp), void> print_ip(std::tuple<Tp...>& t)
+{
+	std::cout << std::endl;
+}
+template<std::size_t I = 0, typename... Tp>
+inline typename std::enable_if_t<I < sizeof...(Tp), void> print_ip(std::tuple<Tp...>& t) {
 	std::cout << std::get<I>(t);
 	if (I + 1 != sizeof...(Tp)) std::cout << ".";
 	print_ip<I + 1, Tp...>(t);
 }
-
 
 
 int main()
@@ -103,9 +88,12 @@ int main()
 	print_ip(q_vector);
 	std::list<int> q_list = { 127, 42, 42, 10 };
 	print_ip(q_list);
-	
+
 	/// Tuple checks	
 	auto zz = std::make_tuple(127, 127, 10, 11);
 	print_ip(zz);
 
+	std::system("pause");
+
 }
+
