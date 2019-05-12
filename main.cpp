@@ -1,7 +1,7 @@
 #include <iostream>
+#include <string>
 #include <vector>
 #include <list>
-#include <string>
 #include <tuple>
 
 typedef union {
@@ -13,7 +13,7 @@ typedef union {
 
 
 /// <summary>
-/// integral types specialization
+/// integral types 
 /// </summary>
 template<class T, typename std::enable_if_t<std::is_integral_v<T>>* = nullptr>
 void print_ip(const T& t)
@@ -30,30 +30,39 @@ void print_ip(const T& t)
 }
 
 /// <summary>
-/// Containers specialization
+/// String overloading
 /// </summary>
-template <typename T, typename = typename T::iterator>
-void print_ip(T container)
-{
-	for (auto value : container)
-		std::cout << value << " ";
-	std::cout << std::endl;
-}
 
-/// <summary>
-/// String specialization
-/// </summary>
 template<class T, typename std::enable_if_t<std::is_same_v<T, std::string>>* = nullptr>
-void print_ip(std::string t)
+void print_ip(T t)
 {
 	std::cout << t << std::endl;
 }
 
+/// <summary>
+/// Containers overloading
+/// </summary>
+template <typename T>
+void print_ip(const std::vector<T>& Z)
+{
+	for (auto& value : Z) {
+		std::cout << value << " ";
+	}
+	std::cout << std::endl;
+}
+template <typename T>
+void print_ip(const std::list<T>& Z)
+{
+	for (auto& value : Z) {
+		std::cout << value << " ";
+	}
+	std::cout << std::endl;
+
+}
 
 /// <summary>
-/// Tuple specialization
+/// Tuple overloading
 /// </summary>
-
 template<std::size_t I = 0, typename... Tp>
 inline typename std::enable_if_t<I == sizeof...(Tp), void> print_ip(std::tuple<Tp...>& t)
 {
@@ -93,7 +102,4 @@ int main()
 	auto zz = std::make_tuple(127, 127, 10, 11);
 	print_ip(zz);
 
-	std::system("pause");
-
 }
-
