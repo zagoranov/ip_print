@@ -11,9 +11,8 @@ typedef union {
 	unsigned long long int qword;
 } integral_union;
 
-
 /// <summary>
-/// integral types 
+/// Integral types 
 /// </summary>
 template<class T, typename std::enable_if_t<std::is_integral_v<T>>* = nullptr>
 void print_ip(const T& t)
@@ -30,34 +29,23 @@ void print_ip(const T& t)
 }
 
 /// <summary>
-/// String overloading
+/// String simple overloading
 /// </summary>
-
-template<class T, typename std::enable_if_t<std::is_same_v<T, std::string>>* = nullptr>
-void print_ip(T t)
+void print_ip(std::string const& t)
 {
 	std::cout << t << std::endl;
 }
 
 /// <summary>
-/// Containers overloading
+/// Containers specialization
 /// </summary>
-template <typename T>
-void print_ip(const std::vector<T>& Z)
+template <typename T, typename = typename T::iterator>
+void print_ip(T container)
 {
-	for (auto& value : Z) {
+	for (auto& value : container) {
 		std::cout << value << " ";
 	}
 	std::cout << std::endl;
-}
-template <typename T>
-void print_ip(const std::list<T>& Z)
-{
-	for (auto& value : Z) {
-		std::cout << value << " ";
-	}
-	std::cout << std::endl;
-
 }
 
 /// <summary>
