@@ -1,22 +1,22 @@
 cmake_minimum_required(VERSION 3.2)
 
 if ($ENV{TRAVIS_BUILD_NUMBER})
-    project(ip_print VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
+    project(print_ip VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
 else()
-    project(ip_print VERSION 0.0.13)
+    project(print_ip VERSION 0.0.13)
 endif()
 
 #find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
 configure_file(version.h.in version.h)
 
-add_executable(ip_print_cli main.cpp)
+add_executable(print_ip_cli main.cpp)
 
-add_library(ip_print lib.cpp)
+add_library(print_ip lib.cpp)
 
 #add_executable(test_version test_version.cpp)
 
-set_target_properties(ip_print_cli ip_print PROPERTIES
+set_target_properties(print_ip_cli print_ip PROPERTIES
     CXX_STANDARD 14
     CXX_STANDARD_REQUIRED ON
     COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra"
@@ -27,11 +27,8 @@ set_target_properties(ip_print_cli ip_print PROPERTIES
 #    INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
 #)
 
-set_target_properties(ip_print_cli PROPERTIES LINK_FLAGS -pthread
-)
-
-target_link_libraries(ip_print_cli
-    ip_print
+target_link_libraries(print_ip_cli
+    print_ip
 )
 
 #target_link_libraries(test_version
@@ -39,7 +36,7 @@ target_link_libraries(ip_print_cli
 #    ip_print
 #)
 
-install(TARGETS ip_print_cli RUNTIME DESTINATION bin)
+install(TARGETS print_ip_cli RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 
