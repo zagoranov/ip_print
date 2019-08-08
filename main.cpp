@@ -4,29 +4,19 @@
 #include <list>
 #include <tuple>
 
-typedef union {
-	unsigned char bytes[8];
-	unsigned short int words[4];
-	unsigned int dwords[2];
-	unsigned long long int qword;
-} integral_union;
-
 /// <summary>
 /// Integral types 
 /// </summary>
 template<class T, typename std::enable_if_t<std::is_integral_v<T>>* = nullptr>
-void print_ip(const T& t)
-{
-	integral_union iu;
-	iu.qword = t;
-	for (int i = sizeof(T) - 1; i >= 0; --i)
-	{
-		std::cout << (int)iu.bytes[i];
-		if (i > 0)
+void print_ip(const T t) {
+	for (int i = sizeof(T) - 1; i >= 0; --i) {
+		std::cout << ((t >> (8 * i)) & 0xff);
+		if (i != 0)
 			std::cout << ".";
 	}
 	std::cout << std::endl;
 }
+
 
 /// <summary>
 /// String simple overloading
@@ -43,7 +33,7 @@ template <typename T, typename = typename T::iterator>
 void print_ip(T container)
 {
 	for (auto& value : container) {
-		std::cout << value << " ";
+		std::cout << value << ".";
 	}
 	std::cout << std::endl;
 }
@@ -90,4 +80,3 @@ int main()
 	auto zz = std::make_tuple(127, 127, 10, 11);
 	print_ip(zz);
 
-}
