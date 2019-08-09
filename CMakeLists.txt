@@ -12,11 +12,11 @@ configure_file(version.h.in version.h)
 
 add_executable(print_ip main.cpp)
 
-add_library(print_ip lib.cpp)
+add_library(print_ip_impl lib.cpp)
 
 #add_executable(test_version test_version.cpp)
 
-set_target_properties(print_ip print_ip PROPERTIES
+set_target_properties(print_ip print_ip_impl PROPERTIES
     CXX_STANDARD 14
     CXX_STANDARD_REQUIRED ON
     COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra"
@@ -28,7 +28,7 @@ set_target_properties(print_ip print_ip PROPERTIES
 #)
 
 target_link_libraries(print_ip
-    print_ip
+    print_ip_impl
 )
 
 #target_link_libraries(test_version
