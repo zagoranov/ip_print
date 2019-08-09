@@ -10,13 +10,13 @@ endif()
 
 configure_file(version.h.in version.h)
 
-add_executable(print_ip_cli main.cpp)
+add_executable(print_ip main.cpp)
 
 add_library(print_ip lib.cpp)
 
 #add_executable(test_version test_version.cpp)
 
-set_target_properties(print_ip_cli print_ip PROPERTIES
+set_target_properties(print_ip print_ip PROPERTIES
     CXX_STANDARD 14
     CXX_STANDARD_REQUIRED ON
     COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra"
@@ -27,7 +27,7 @@ set_target_properties(print_ip_cli print_ip PROPERTIES
 #    INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
 #)
 
-target_link_libraries(print_ip_cli
+target_link_libraries(print_ip
     print_ip
 )
 
@@ -36,7 +36,7 @@ target_link_libraries(print_ip_cli
 #    ip_print
 #)
 
-install(TARGETS print_ip_cli RUNTIME DESTINATION bin)
+install(TARGETS print_ip RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 
