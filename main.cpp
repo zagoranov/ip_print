@@ -7,7 +7,7 @@
 /// <summary>
 /// Integral types 
 /// </summary>
-template<class T, typename std::enable_if_t<std::is_integral_v<T>>* = nullptr>
+template<class T, typename std::enable_if_t<std::is_integral<T>::value>* = nullptr>
 void print_ip(const T t) {
 	for (int i = sizeof(T) - 1; i >= 0; --i) {
 		std::cout << ((t >> (8 * i)) & 0xff);
